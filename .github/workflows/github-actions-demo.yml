@@ -5,8 +5,19 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: php8-apache2:latest
     steps:
-      - run: apt-get update 
-      - run: apt-get install -y --no-install-recommends apache2
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Run Prisma Cloud 
+        #id: Prisma Cloud
+        uses: bridgecrewio/checkov-action@master 
+        env:
+          PRISMA_API_URL: https://api2.eu.prismacloud.io
+        with:
+          api-key: ${{ secrets.BC_API_KEY }}
+    
+      #- run: apt-get update 
+      #- run: apt-get install -y --no-install-recommends apache2
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
